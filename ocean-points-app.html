@@ -62,7 +62,7 @@
     async function saveRanking(){
       if(!rankingUser || !profileLoaded) return;
       const nickname = localStorage.getItem('oceanPointsNickname') || nicknameFor(rankingUser);
-      await setDoc(doc(firebaseDb,'rankings',rankingUser.uid),{nickname,points:Number(points)||0,updatedAt:serverTimestamp()},{merge:true});
+      await setDoc(doc(firebaseDb,'rankings',rankingUser.uid),{nickname,points:Number(points)||0,authLinked:true,updatedAt:serverTimestamp()},{merge:true});
       await setDoc(profileRef(),{nickname,points:Number(points)||0,updatedAt:serverTimestamp()},{merge:true});
     }
     async function loadProfile(user){
@@ -79,7 +79,8 @@
       update(); profileLoaded=true; await saveRanking();
     }
     function renderRanking(docs){
-      rankingList.innerHTML = docs.map((item,index) => `<div class="rank ${item.id===rankingUser?.uid?'me':''}"><span>${index<3?['🥇','🥈','🥉'][index]:'🌊'} ${index+1}</span><span>${escapeHtml(item.data().nickname || '파도 수호자')}</span><b>${Number(item.data().points||0).toLocaleString('ko-KR')} P</b></div>`).join('') || '<div class="rank"><span>🌊</span><span>첫 번째 수호자가 되어보세요!</span><b>0 P</b></div>';
+      const signedInDocs = docs.filter(item => item.data().authLinked === true);
+      rankingList.innerHTML = signedInDocs.map((item,index) => `<div class="rank ${item.id===rankingUser?.uid?'me':''}"><span>${index<3?['🥇','🥈','🥉'][index]:'🌊'} ${index+1}</span><span>${escapeHtml(item.data().nickname || '파도 수호자')}</span><b>${Number(item.data().points||0).toLocaleString('ko-KR')} P</b></div>`).join('') || '<div class="rank"><span>🌊</span><span>첫 번째 수호자가 되어보세요!</span><b>0 P</b></div>';
     }
     try {
       let stopRanking;
