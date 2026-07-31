@@ -48,12 +48,13 @@
   </script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
-    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
     import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
 
     const firebaseApp = initializeApp({apiKey:'AIzaSyAb5_UEFj6yutGH4kLV01dPyMl6rNLpz9k',authDomain:'ocean-points-app.firebaseapp.com',projectId:'ocean-points-app',storageBucket:'ocean-points-app.firebasestorage.app',messagingSenderId:'140482434257',appId:'1:140482434257:web:934f29db5dba22d58721f0'});
     const firebaseAuth = getAuth(firebaseApp), firebaseDb = getFirestore(firebaseApp);
-    let rankingUser, profileLoaded=false;
+    await setPersistence(firebaseAuth,browserLocalPersistence).catch(error=>console.warn('Login persistence unavailable',error));
+    let rankingUser, profileLoaded=false, authWasSuccessful=false;
     const rankingList = document.querySelector('.rank-list');
     const toast = message => { const el=document.getElementById('toast'); el.textContent=message; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2500); };
     const escapeHtml = value => value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
@@ -85,14 +86,15 @@
     }
     try {
       let stopRanking;
-      const beginGoogleLogin = async () => { try { const provider=new GoogleAuthProvider(); await signInWithPopup(firebaseAuth,provider); } catch (error) { console.warn(error); alert('로그인이 열리지 않았어요. 팝업 차단을 해제한 뒤 다시 눌러주세요.'); } };
+      const beginGoogleLogin = async () => { try { const provider=new GoogleAuthProvider(); const result=await signInWithPopup(firebaseAuth,provider); authWasSuccessful=!!result.user; } catch (error) { console.warn(error); alert('로그인이 열리지 않았어요. 팝업 차단을 해제한 뒤 다시 눌러주세요.'); } };
       onAuthStateChanged(firebaseAuth, user => {
-        if(!user){ document.getElementById('loginGate').classList.remove('hidden'); document.getElementById('appShell').classList.add('hidden'); return; }
+        if(!user){ if(authWasSuccessful) return; document.getElementById('loginGate').classList.remove('hidden'); document.getElementById('appShell').classList.add('hidden'); return; }
+        authWasSuccessful=true;
         document.getElementById('loginGate').classList.add('hidden'); document.getElementById('appShell').classList.remove('hidden'); requestAnimationFrame(() => { window.scrollTo(0,0); document.documentElement.scrollTop=0; document.body.scrollTop=0; });
         loadProfile(user).catch(() => { rankingUser=user; profileLoaded=true; points=0; document.getElementById('myNickname').textContent=nicknameFor(user); document.getElementById('loginName').textContent=nicknameFor(user)+' 님으로 로그인했어요.'; document.getElementById('accountName').textContent=nicknameFor(user); update(); }).finally(() => { if(!stopRanking) stopRanking=onSnapshot(query(collection(firebaseDb,'rankings'),orderBy('points','desc'),limit(50)), snapshot => renderRanking(snapshot.docs)); });
       });
       document.getElementById('gateLogin').addEventListener('click', beginGoogleLogin);
-      document.getElementById('loginButton').addEventListener('click', async () => { if(firebaseAuth.currentUser){ await signOut(firebaseAuth); rankingUser=null; profileLoaded=false; points=0; update(); return; } await beginGoogleLogin(); });
+      document.getElementById('loginButton').addEventListener('click', async () => { if(firebaseAuth.currentUser){ authWasSuccessful=false; await signOut(firebaseAuth); rankingUser=null; profileLoaded=false; points=0; update(); return; } await beginGoogleLogin(); });
       const syncPoints = () => setTimeout(()=>saveRanking().catch(()=>toast('포인트 저장에 실패했어요.')),0);
       document.getElementById('confirmEarn').addEventListener('click', syncPoints);
       document.querySelectorAll('[data-cost]').forEach(button=>button.addEventListener('click',syncPoints));
