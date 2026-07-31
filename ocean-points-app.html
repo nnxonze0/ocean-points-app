@@ -1,110 +1,3 @@
-Skip to content
-nnxonze0
-ocean-points-app
-Type / to search
-Repository navigation
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security and quality
-1
- (1)
-Insights
-Settings
-Files
-90e5bd4
-t
-T
-ocean-points-app.html
-Breadcrumbs
-ocean-points-app
-/ocean-points-app.html
-Latest commit
-nnxonze0
-Remove manual waste type selection
-90e5bd4
- · 
-History
-History
-File metadata and controls
-Code
-Blame
-70 lines (69 loc) · 23.4 KB
-Raw
-Copy raw file
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
 <!doctype html>
 <html lang="ko">
 <head>
@@ -120,12 +13,12 @@ Copy raw file
 <body>
   <main class="shell">
     <header class="top"><div class="brand">파도<span>포인트</span> 🌊</div><div class="balance">보유 <span id="balance">0 P</span></div></header>
-    <nav class="tabs" aria-label="주요 화면"><button class="active" data-view="camera">AI 인증</button><button data-view="store">리워드 스토어</button><button data-view="ranking">랭킹</button></nav>
+    <nav class="tabs" aria-label="주요 화면"><button class="active" data-view="camera">해변 인증</button><button data-view="store">리워드 스토어</button><button data-view="ranking">랭킹</button></nav>
     <section class="views">
-      <article class="panel camera" id="camera"><div class="camera-head"><strong>해변 인증 카메라</strong><span class="ai">◉ 쓰레기 AI 인식 중</span></div><div class="beach" id="cameraView"><video id="video" autoplay playsinline muted></video><div id="detectionOverlay"></div><button class="camera-start" id="startCamera">실제 카메라 켜기</button></div><div class="detect"><strong id="detectionCount">카메라를 켜주세요</strong><br><span id="detectionGuide">페트병·컵 등 쓰레기를 화면에 비춰주세요</span></div><div class="capture"><span>🖼️</span><button class="shutter" aria-label="쓰레기 사진 인증" id="capture"></button><span class="flash">ϟ</span></div></article>
-      <article class="panel estimate hidden" id="estimate"><h1>사진 분석 결과</h1><img class="photo-preview" id="photoPreview" alt="촬영한 인증 사진"><div class="estimate-value">인식된 쓰레기 <strong id="estimateCount">0개</strong><b id="estimatePoints">0 P</b>수거 목록에 추가될 예상 포인트</div><button class="primary" id="confirmEarn">수거 목록에 추가하기</button><button class="primary" style="background:#eaf5f8;color:#0b4772" data-view="camera">다시 촬영하기</button></article>
+      <article class="panel camera" id="camera"><div class="camera-head"><strong>해변 인증 카메라</strong><span class="ai">◉ 쓰레기 인식 중</span></div><div class="beach" id="cameraView"><video id="video" autoplay playsinline muted></video><div id="detectionOverlay"></div><button class="camera-start" id="startCamera">실제 카메라 켜기</button></div><div class="detect"><strong id="detectionCount">카메라를 켜주세요</strong><br><span id="detectionGuide">페트병·컵 등 쓰레기를 화면에 비춰주세요</span></div><div class="capture"><span>🖼️</span><button class="shutter" aria-label="쓰레기 사진 인증" id="capture"></button><span class="flash">ϟ</span></div></article>
+      <article class="panel estimate hidden" id="estimate"><h1>사진 분석 결과</h1><img class="photo-preview" id="photoPreview" alt="촬영한 인증 사진"><div class="estimate-value">인식된 쓰레기 <strong id="estimateCount">0개</strong><b id="estimatePoints">0 P</b>사진 인증 후 바로 적립돼요</div><button class="primary" id="confirmEarn">포인트 적립하기</button><button class="primary" style="background:#eaf5f8;color:#0b4772" data-view="camera">다시 촬영하기</button></article>
       <article class="panel estimate hidden" id="collection"><h1>수거 목록</h1><div class="estimate-value">이번 활동에서 수거한 쓰레기 <strong id="collectionCount">0개</strong><b id="collectionPoints">0 P</b>배출 인증 후 한 번에 적립돼요</div><div class="impact">🛡️ 수거 사진마다 중복 검사가 적용됩니다</div><button class="primary" data-view="camera">더 수거하기</button><button class="primary" id="startDisposal">한 번에 배출 인증하기</button></article>
-      <article class="panel dispose hidden" id="dispose"><h1>배출 인증</h1><p>가까운 일반 쓰레기통 또는 분리수거함에 쓰레기를 넣어주세요.</p><div class="qr-box"><i>🗑️</i><strong>배출 사진 인증</strong><br><small>쓰레기통과 수거한 쓰레기가 함께 보이도록 촬영하면 돼요.</small></div><video class="photo-preview hidden" id="disposeVideo" autoplay playsinline muted></video><div class="impact">🛡️ 사진 중복 검사 적용</div><button class="primary" id="openDisposalCamera">카메라로 배출 사진 촬영</button><button class="primary hidden" id="completeDisposal">이 사진으로 배출 인증 완료</button><button class="primary" style="background:#eaf5f8;color:#0b4772" data-view="camera">다시 촬영하기</button></article>
+      <article class="panel dispose hidden" id="dispose"><h1>배출 인증</h1><p>가까운 일반 쓰레기통 또는 분리수거함에 쓰레기를 넣어주세요.</p><div class="qr-box"><i>🗑️</i><strong>배출 사진 인증</strong><br><small>쓰레기통과 수거한 쓰레기가 함께 보이도록 촬영하면 돼요.</small></div><video class="photo-preview hidden" id="disposeVideo" autoplay playsinline muted></video><img class="photo-preview hidden" id="disposePreview" alt="촬영한 배출 인증 사진"><div class="impact">🛡️ 사진 중복 검사 적용</div><button class="primary" id="openDisposalCamera">카메라로 배출 사진 촬영</button><button class="primary hidden" id="takeDisposalPhoto">배출 사진 찍기</button><button class="primary hidden" id="completeDisposal">이 사진으로 배출 인증 완료</button><button class="primary" style="background:#eaf5f8;color:#0b4772" data-view="camera">다시 촬영하기</button></article>
       <article class="panel summary hidden" id="reward"><div class="success">✓</div><h1>인증이 완료되었어요!</h1><div class="reward"><b id="rewardPoints">+300 P</b><span id="rewardDetail">해변 쓰레기 3개 수거</span></div><div class="current">현재 보유 포인트 <strong id="earnedBalance">0 P</strong></div><div class="impact">🌊 바다를 더 깨끗하게 만들었어요</div><button class="primary" data-view="store">포인트 확인하기</button></article>
       <article class="panel store hidden" id="store"><div class="store-top"><h1>리워드 스토어</h1><span class="balance" style="color:#0a4d72;background:#e9fbff;border-color:#80e9ef">🪸 <span id="storeBalance">0 P</span></span></div><div class="filters"><button class="on">전체</button><button>카페</button><button>편의점</button><button>문화</button></div><div class="items">
         <div class="gift"><div class="gift-art">🏪</div><h3>편의점 교환권</h3><p>3,000 P</p><button data-cost="3000" data-name="편의점 교환권">구매하기</button></div>
@@ -144,14 +37,16 @@ Copy raw file
     document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>show(b.dataset.view));let pendingPoints=0,pendingCount=0;document.getElementById('capture').onclick=()=>{if(!lastFound){const t=document.getElementById('toast');t.textContent='인식된 쓰레기를 화면에 비춰주세요.';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);return}pendingCount=lastFound;pendingPoints=lastFound*100;const v=document.getElementById('video'),canvas=document.createElement('canvas');canvas.width=v.videoWidth;canvas.height=v.videoHeight;canvas.getContext('2d').drawImage(v,0,0);document.getElementById('photoPreview').src=canvas.toDataURL('image/jpeg',.9);document.getElementById('estimateCount').textContent=pendingCount+'개';document.getElementById('estimatePoints').textContent=pendingPoints.toLocaleString('ko-KR')+' P';show('estimate')};document.getElementById('confirmEarn').onclick=()=>{points+=pendingPoints;document.getElementById('rewardPoints').textContent='+'+pendingPoints.toLocaleString('ko-KR')+' P';document.getElementById('rewardDetail').textContent='해변 쓰레기 '+pendingCount+'개 수거';update();show('reward')};document.querySelectorAll('[data-cost]').forEach(b=>b.onclick=()=>{let c=+b.dataset.cost,t=document.getElementById('toast');if(points<c){t.textContent='포인트가 부족해요.'}else{points-=c;update();t.textContent=b.dataset.name+' 구매가 완료되었어요!'}t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)});const nick=localStorage.getItem('oceanPointsNickname')||'';document.getElementById('nicknameInput').value=nick;document.getElementById('myNickname').textContent=nick||'나의 닉네임';document.getElementById('saveNickname').onclick=()=>{const value=document.getElementById('nicknameInput').value.trim(),t=document.getElementById('toast');if(!value){t.textContent='닉네임을 입력해주세요.'}else{localStorage.setItem('oceanPointsNickname',value);document.getElementById('myNickname').textContent=value;t.textContent='랭킹 닉네임을 저장했어요.'}t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)};
     const koreanLabels={bottle:'페트병 · 재활용',cup:'일회용 컵 · 재활용','wine glass':'유리병 · 재활용',fork:'플라스틱 포크 · 일반',knife:'플라스틱 칼 · 일반',spoon:'플라스틱 수저 · 일반',toothbrush:'플라스틱 소품 · 일반'};let detector,detecting=false,lastFound=0;
     async function runDetection(){if(!detecting||!detector)return;const video=document.getElementById('video');if(video.readyState<2){requestAnimationFrame(runDetection);return}const found=(await detector.detect(video)).filter(x=>koreanLabels[x.class]&&x.score>.35);lastFound=found.length;const overlay=document.getElementById('detectionOverlay');overlay.innerHTML='';const vw=video.videoWidth,vh=video.videoHeight,box=video.getBoundingClientRect(),scale=Math.max(box.width/vw,box.height/vh),dx=(box.width-vw*scale)/2,dy=(box.height-vh*scale)/2;found.forEach(x=>{const [x0,y0,w,h]=x.bbox;const el=document.createElement('div');el.className='detected';el.style.cssText=`left:${x0*scale+dx}px;top:${y0*scale+dy}px;width:${w*scale}px;height:${h*scale}px`;const candidate=x.score<.55?' · 후보 확인':'';el.innerHTML=`<span>${koreanLabels[x.class]}${candidate} ${Math.round(x.score*100)}%</span>`;overlay.appendChild(el)});document.getElementById('detectionCount').textContent=found.length?`${found.length}개의 쓰레기를 발견했어요`:'쓰레기를 찾는 중이에요';document.getElementById('detectionGuide').textContent=found.length?`예상 적립 ${found.length*100} P`:'찌그러진 페트병도 가까이 비춰주세요';setTimeout(runDetection,500)}
-    document.getElementById('startCamera').onclick=async()=>{const toast=document.getElementById('toast');try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});const video=document.getElementById('video');video.srcObject=stream;document.getElementById('cameraView').classList.add('live');document.getElementById('startCamera').textContent='AI 모델 불러오는 중…';detector=await cocoSsd.load();detecting=true;document.getElementById('startCamera').remove();runDetection()}catch(e){toast.textContent='카메라·AI 모델 권한을 확인한 뒤 다시 시도해주세요.';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2800)}};
+    document.getElementById('startCamera').onclick=async()=>{const toast=document.getElementById('toast');try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});const video=document.getElementById('video');video.srcObject=stream;document.getElementById('cameraView').classList.add('live');document.getElementById('startCamera').textContent='인식 기능을 준비하는 중…';detector=await cocoSsd.load({base:'lite_mobilenet_v2'});detecting=true;document.getElementById('startCamera').remove();runDetection()}catch(e){toast.textContent='카메라 권한을 확인한 뒤 다시 시도해주세요.';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2800)}};
     var capturedHash='',sessionPoints=0,sessionCount=0,sessionHashes=[];function perceptualHash(source,crop){const small=document.createElement('canvas');small.width=16;small.height=16;const ctx=small.getContext('2d');const sx=crop?source.width*.12:0,sy=crop?source.height*.12:0,sw=crop?source.width*.76:source.width,sh=crop?source.height*.76:source.height;ctx.drawImage(source,sx,sy,sw,sh,0,0,16,16);const data=ctx.getImageData(0,0,16,16).data;const gray=[];for(let i=0;i<data.length;i+=4)gray.push(data[i]*.299+data[i+1]*.587+data[i+2]*.114);const avg=gray.reduce((a,b)=>a+b,0)/gray.length;return gray.map(v=>v>avg?'1':'0').join('')}function photoHash(canvas){return{full:perceptualHash(canvas,false),center:perceptualHash(canvas,true)}}function difference(a,b){if(!a||!b||a.length!==b.length)return 999;let d=0;for(let i=0;i<a.length;i++)if(a[i]!==b[i])d++;return d}function similar(a,b){if(!a||!b||typeof b==='string')return false;return difference(a.full,b.full)<24||difference(a.center,b.center)<24}function refreshCollection(){document.getElementById('collectionCount').textContent=sessionCount+'개';document.getElementById('collectionPoints').textContent=sessionPoints.toLocaleString('ko-KR')+' P'}document.getElementById('capture').onclick=()=>{if(!lastFound){const t=document.getElementById('toast');t.textContent='인식된 쓰레기를 화면에 비춰주세요.';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);return}const v=document.getElementById('video'),canvas=document.createElement('canvas');canvas.width=v.videoWidth;canvas.height=v.videoHeight;canvas.getContext('2d').drawImage(v,0,0);capturedHash=photoHash(canvas);const used=JSON.parse(localStorage.getItem('oceanPointsUsedPhotos')||'[]');if(used.some(x=>similar(capturedHash,x))||sessionHashes.some(x=>similar(capturedHash,x))){const t=document.getElementById('toast');t.textContent='이전에 인증한 사진과 매우 유사해요. 다른 쓰레기 사진을 촬영해주세요.';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);return}pendingCount=lastFound;pendingPoints=lastFound*100;document.getElementById('photoPreview').src=canvas.toDataURL('image/jpeg',.9);document.getElementById('estimateCount').textContent=pendingCount+'개';document.getElementById('estimatePoints').textContent=pendingPoints.toLocaleString('ko-KR')+' P';show('estimate')};document.getElementById('confirmEarn').onclick=()=>{sessionCount+=pendingCount;sessionPoints+=pendingPoints;sessionHashes.push(capturedHash);refreshCollection();show('collection')};document.getElementById('startDisposal').onclick=()=>show('dispose');document.getElementById('completeDisposal').onclick=()=>{const used=JSON.parse(localStorage.getItem('oceanPointsUsedPhotos')||'[]');localStorage.setItem('oceanPointsUsedPhotos',JSON.stringify([...used,...sessionHashes].slice(-100)));points+=sessionPoints;document.getElementById('rewardPoints').textContent='+'+sessionPoints.toLocaleString('ko-KR')+' P';document.getElementById('rewardDetail').textContent='해변 쓰레기 '+sessionCount+'개 배출 완료';sessionPoints=0;sessionCount=0;sessionHashes=[];update();show('reward')};document.getElementById('openDisposalCamera').onclick=async()=>{const t=document.getElementById('toast'),preview=document.getElementById('disposeVideo');try{let stream=document.getElementById('video').srcObject;if(!stream)stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});preview.srcObject=stream;preview.classList.remove('hidden');document.getElementById('openDisposalCamera').classList.add('hidden');document.getElementById('completeDisposal').classList.remove('hidden')}catch(e){t.textContent='카메라 권한을 허용한 뒤 다시 시도해주세요.';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}};update();
+  </script>
+  <script>
+    document.getElementById('confirmEarn').onclick=()=>{const used=JSON.parse(localStorage.getItem('oceanPointsUsedPhotos')||'[]');localStorage.setItem('oceanPointsUsedPhotos',JSON.stringify([...used,...sessionHashes,capturedHash].slice(-100)));points+=pendingPoints;document.getElementById('rewardPoints').textContent='+'+pendingPoints.toLocaleString('ko-KR')+' P';document.getElementById('rewardDetail').textContent='해변 쓰레기 '+pendingCount+'개 수거 인증';update();show('reward')};
   </script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
     import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
     import { getFirestore, doc, setDoc, collection, query, orderBy, limit, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
-
 
     const firebaseApp = initializeApp({apiKey:'AIzaSyAb5_UEFj6yutGH4kLV01dPyMl6rNLpz9k',authDomain:'ocean-points-app.firebaseapp.com',projectId:'ocean-points-app',storageBucket:'ocean-points-app.firebasestorage.app',messagingSenderId:'140482434257',appId:'1:140482434257:web:934f29db5dba22d58721f0'});
     const firebaseAuth = getAuth(firebaseApp), firebaseDb = getFirestore(firebaseApp);
@@ -172,7 +67,7 @@ Copy raw file
       await saveRanking();
       onSnapshot(query(collection(firebaseDb,'rankings'),orderBy('points','desc'),limit(50)), snapshot => renderRanking(snapshot.docs));
       document.getElementById('saveNickname').addEventListener('click', async () => { try { await saveRanking(); toast('랭킹 닉네임을 저장했어요.'); } catch { toast('랭킹 저장에 실패했어요.'); } });
-      document.getElementById('completeDisposal').addEventListener('click', () => setTimeout(()=>saveRanking().catch(()=>toast('랭킹 동기화에 실패했어요.')),0));
+      document.getElementById('confirmEarn').addEventListener('click', () => setTimeout(()=>saveRanking().catch(()=>toast('랭킹 동기화에 실패했어요.')),0));
     } catch (error) { console.warn('Firebase ranking unavailable',error); }
   </script>
 </body></html>
